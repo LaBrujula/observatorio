@@ -68,7 +68,7 @@ def main():
       tickformat="%d-%m-%Y", 
       dtick="M1")
       st.plotly_chart(fig, use_container_width=True)
-      st.caption('Fuente: Elaboración propia en base a datos de la EPH (2019-2022)')
+      st.caption('Fuente: Elaboración propia en base a datos de la EPH (2016-2022)')
    
    with tab4:
       st.subheader('Próximas incorporaciones')
