@@ -60,7 +60,7 @@ def main():
         ('Gran La Plata','Bahía Blanca ‐ Cerri','Gran Rosario','Gran Santa Fé','Gran Paraná','Posadas', 'Gran Resistencia', 'Cdro. Rivadavia – Rada Tilly', 'Gran Mendoza', 
          'Corrientes', 'Gran Córdoba', 'Concordia', 'Formosa', 'Neuquén – Plottier', 'S.del Estero ‐ La Banda', 'Jujuy ‐ Palpalá', 'Río Gallegos', 'Gran Catamarca', 'Salta', 
          'La Rioja', 'San Luis ‐ El Chorrillo', 'Gran San Juan', 'Gran Tucumán ‐ T. Viejo', 'Santa Rosa ‐ Toay', 'Ushuaia ‐ Río Grande', 'Ciudad de Buenos Aires', 'Partidos del GBA', 
-         'Mar del Plata ‐ Batán', 'Río Cuarto', 'San Nicolás – Villa Constitución', 'Rawson – Trelew', 'Viedma – Carmen de Patagones','Promedio Nacional'))
+         'Mar del Plata ‐ Batán', 'Río Cuarto', 'San Nicolás – Villa Constitución', 'Rawson – Trelew', 'Viedma – Carmen de Patagones'))
       fig=go.Figure()
       fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Déficit Habitacional para el aglomerado de {aglomerado}'))
       fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Déficit Habitacional, promedio nacional'))
