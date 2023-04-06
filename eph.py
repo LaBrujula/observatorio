@@ -7,7 +7,6 @@ import pickle
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import matplotlib.pyplot as plt
-import seaborn as sns
 #disabling the warnings
 import warnings
 warnings.filterwarnings("ignore")
