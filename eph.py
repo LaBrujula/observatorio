@@ -20,7 +20,7 @@ def main():
 
    st.header('__OBSERVATORIO DEL HÁBITAT URBANO__')
 
-   tab1, tab2, tab3, tab4, tab5 = st.tabs(["Presentación", "Metodología", "Series de Tiempo", "Mapas","Próximas incorporaciones"])
+   tab1, tab2, tab3, tab4, tab5 = st.tabs(["Presentación", "Metodologías", "Series de Tiempo", "Mapas","Próximas incorporaciones"])
 
    with tab1:
       st.subheader('Presentación')
@@ -30,7 +30,7 @@ def main():
       st.markdown('Investigadorxs: Guadalupe __Atienza Rela__ | Santiago __Federico__')
    
    with tab2:
-      st.subheader('Metodología')
+      st.subheader('Metodologías')
       
       opt_meto = st.selectbox('Seleccione __una de las opciones__ para visualizar la metodología utilizada para la construcción del indicador',('EPH - Déficit Habitacional', 'EPH - Alquileres formales'))
       
