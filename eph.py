@@ -25,7 +25,7 @@ def main():
    with tab1:
       st.subheader('Presentación')
       st.markdown('El __Observatorio del Hábitat Urbano__ tiene como objetivo generar indicadores que permitan __visibilizar problemáticas__ vinculadas al hábitat urbano en la Argentina y __monitorear la efectividad__ de las políticas públicas aplicadas.')  
-      st.markdown('Como primer paso, se avanzó en la construcción del primer indicador de __evolución del Déficit Habitacional__ en los aglomerados de la __Argentina__. La sección de _"Metodología"_ detalla cómo se construyen el indicador y los gráficos de la sección _"Series de Tiempo"_. En breve se espera poder incorporar mapas para una mejor comprensión espacial de los datos.')
+      st.markdown('Como primer paso, se avanzó en la construcción del primer indicador de __evolución del Déficit Habitacional__ en los aglomerados de la __Argentina__. La sección de _"Metodologías"_ detalla cómo se construyen el indicador y los gráficos de la sección _"Series de Tiempo"_. En breve se espera poder incorporar mapas para una mejor comprensión espacial de los datos.')
       st.markdown('Es intención de los y las investigadoras incrementar el número de indicadores a ser representados por lo que cualquier aporte es bienvenido.')
       st.markdown('Investigadorxs: Guadalupe __Atienza Rela__ | Santiago __Federico__')
    
