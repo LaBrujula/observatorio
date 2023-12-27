@@ -59,107 +59,55 @@ def main():
          st.markdown('El resultado del cruce genera una nueva columna con __variables binarias__, que expresan la presencia o no de hogares inquilinos formales que luego se transforma a porcentajes.')
 
    with tab3:
+      def plot_graph(title, csv_filename, aglomerado):
+         data = pd.read_csv(csv_filename, sep=';')
+         data = data.set_index(['DATE'])
+         fig = go.Figure()
+         fig.add_trace(go.Scatter(x=data.index, y=data[aglomerado], name=f'{title} para el aglomerado de {aglomerado}'))
+         fig.add_trace(go.Scatter(x=data.index, y=data['Promedio Nacional'], name=f'{title}, promedio nacional'))
+         fig.update_layout(
+            title=f'Porcentaje de {title} para el aglomerado de {aglomerado}',
+            xaxis_title='Fecha',
+            yaxis_title=f'{title} (%)',
+            height=600,
+            hovermode="x unified"
+         )
+         fig.update_xaxes(tickformat="%m-%Y", dtick="M3")
+         st.plotly_chart(fig, use_container_width=True)
+         st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2023)')
+
       st.markdown('Por tratarse de series de tiempo extensas e interactivas, __no__ se recomienda utilizar __celulares__ para visualizarlas.')
-      opciones = {'Déficit Habitacional':['Déficit Habitacional Consolidado','Hogares por vivienda','Viviendas irrecuperables','Viviendas recuperables','Hacinamiento en viviendas'],
-                  'Dinámicas del Mercado de Suelos':['Alquileres']
-                  }
-      
+
+      opciones = {'Déficit Habitacional': ['Déficit Habitacional Consolidado', 'Hogares por vivienda', 'Viviendas irrecuperables', 'Viviendas recuperables', 'Hacinamiento en viviendas'],
+                  'Dinámicas del Mercado de Suelos': ['Alquileres']}
+
       seleccion = st.multiselect('Seleccione la __serie de tiempo__ a visualizar:', opciones.keys())
-    
+
       for dataset in seleccion:
          st.header(dataset)
          aglomerado = st.selectbox(
-         "Selección del __aglomerado__ a visualizar", 
-         ('Gran La Plata','Bahía Blanca ‐ Cerri','Gran Rosario','Gran Santa Fé','Gran Paraná','Posadas', 'Gran Resistencia', 'Cdro. Rivadavia – Rada Tilly', 'Gran Mendoza', 
-            'Corrientes', 'Gran Córdoba', 'Concordia', 'Formosa', 'Neuquén – Plottier', 'S.del Estero ‐ La Banda', 'Jujuy ‐ Palpalá', 'Río Gallegos', 'Gran Catamarca', 'Salta', 
-            'La Rioja', 'San Luis ‐ El Chorrillo', 'Gran San Juan', 'Gran Tucumán ‐ T. Viejo', 'Santa Rosa ‐ Toay', 'Ushuaia ‐ Río Grande', 'Ciudad de Buenos Aires', 'Partidos del GBA', 
-            'Mar del Plata ‐ Batán', 'Río Cuarto', 'San Nicolás – Villa Constitución', 'Rawson – Trelew', 'Viedma – Carmen de Patagones'),key=0)
-         
+            "Selección del __aglomerado__ a visualizar",
+            ('Gran La Plata', 'Bahía Blanca ‐ Cerri', 'Gran Rosario', 'Gran Santa Fé', 'Gran Paraná', 'Posadas', 'Gran Resistencia', 'Cdro. Rivadavia – Rada Tilly', 'Gran Mendoza',
+               'Corrientes', 'Gran Córdoba', 'Concordia', 'Formosa', 'Neuquén – Plottier', 'S.del Estero ‐ La Banda', 'Jujuy ‐ Palpalá', 'Río Gallegos', 'Gran Catamarca', 'Salta',
+               'La Rioja', 'San Luis ‐ El Chorrillo', 'Gran San Juan', 'Gran Tucumán ‐ T. Viejo', 'Santa Rosa ‐ Toay', 'Ushuaia ‐ Río Grande', 'Ciudad de Buenos Aires', 'Partidos del GBA',
+               'Mar del Plata ‐ Batán', 'Río Cuarto', 'San Nicolás – Villa Constitución', 'Rawson – Trelew', 'Viedma – Carmen de Patagones'), key=0)
+
          graficos_seleccionados = st.multiselect(f'Selección de __Series de Tiempo__ para {dataset}:', opciones[dataset])
 
-         if 'Alquileres' in graficos_seleccionados:
-            data = pd.read_csv('porcentajes_alquileres.csv',sep=';')
-            data = data.set_index(['DATE'])
-            fig=go.Figure()
-            fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Hogares inquilinos para el aglomerado de {aglomerado}'))
-            fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Hogares inquilinos, promedio nacional'))
-            fig.update_layout(title=f'Porcentaje de Hogares inquilinos para el aglomerado de {aglomerado}',xaxis_title='Fecha',yaxis_title='Hogares inquilinos (%)', height=600)
-            fig.update_layout(hovermode="x unified")
-            fig.update_xaxes(
-            tickformat="%m-%Y", 
-            dtick="M3")
-            st.plotly_chart(fig, use_container_width=True)
-            st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
-
-         if 'Déficit Habitacional Consolidado' in graficos_seleccionados:
-            data = pd.read_csv('porcentajes_totales.csv',sep=';')
-            data = data.set_index(['DATE'])
-            fig=go.Figure()
-            fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Déficit Habitacional para el aglomerado de {aglomerado}'))
-            fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Déficit Habitacional, promedio nacional'))
-            fig.update_layout(title=f'Porcentaje de Déficit Habitacional consolidado para el aglomerado de {aglomerado}',xaxis_title='Fecha',yaxis_title='Hogares con déficit habitacional(%)', height=600)
-            fig.update_layout(hovermode="x unified")
-            fig.update_xaxes(
-            tickformat="%m-%Y", 
-            dtick="M3")
-            st.plotly_chart(fig, use_container_width=True)
-            st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
-
-         if 'Hogares por vivienda' in graficos_seleccionados:   
-            data = pd.read_csv('porcentajes_hogarxviv.csv',sep=';')
-            data = data.set_index(['DATE'])
-            fig=go.Figure()
-            fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Viviendas con más de un hogar para el aglomerado de {aglomerado}'))
-            fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Viviendas con más de un hogar, promedio nacional'))
-            fig.update_layout(title=f'Porcentaje de viviendas con más de un hogar para el aglomerado de {aglomerado}',xaxis_title='Fecha',yaxis_title='Viviendas con más de un hogar (%)', height=600)
-            fig.update_layout(hovermode="x unified")
-            fig.update_xaxes(
-            tickformat="%m-%Y", 
-            dtick="M3")
-            st.plotly_chart(fig, use_container_width=True)
-            st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
-         
-         if 'Viviendas irrecuperables' in graficos_seleccionados:
-            data = pd.read_csv('porcentajes_viv_irre.csv',sep=';')
-            data = data.set_index(['DATE'])
-            fig=go.Figure()
-            fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Viviendas irrecuperables para el aglomerado de {aglomerado}'))
-            fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Viviendas irrecuperables, promedio nacional'))
-            fig.update_layout(title=f'Porcentaje de viviendas irrecuperables para el aglomerado de {aglomerado}',xaxis_title='Fecha',yaxis_title='Viviendas irrecuperables(%)', height=600)
-            fig.update_layout(hovermode="x unified")
-            fig.update_xaxes(
-            tickformat="%m-%Y", 
-            dtick="M3")
-            st.plotly_chart(fig, use_container_width=True)
-            st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
-         
-         if 'Viviendas recuperables' in graficos_seleccionados:
-            data = pd.read_csv('porcentajes_viv_recu.csv',sep=';')
-            data = data.set_index(['DATE'])
-            fig=go.Figure()
-            fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Viviendas recuperables para el aglomerado de {aglomerado}'))
-            fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Viviendas recuperables, promedio nacional'))
-            fig.update_layout(title=f'Porcentaje de viviendas recuperables para el aglomerado de {aglomerado}',xaxis_title='Fecha',yaxis_title='Viviendas recuperables(%)', height=600)
-            fig.update_layout(hovermode="x unified")
-            fig.update_xaxes(
-            tickformat="%m-%Y", 
-            dtick="M3")
-            st.plotly_chart(fig, use_container_width=True)
-            st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
-
-         if 'Hacinamiento en viviendas' in graficos_seleccionados:
-            data = pd.read_csv('porcentajes_viv_hac.csv',sep=';')
-            data = data.set_index(['DATE'])
-            fig=go.Figure()
-            fig.add_trace(go.Scatter(x=data.index,y=data[aglomerado],name=f'Hacinamiento en viviendas para el aglomerado de {aglomerado}'))
-            fig.add_trace(go.Scatter(x=data.index,y=data['Promedio Nacional'],name=f'Hacinamiento en viviendas, promedio nacional'))
-            fig.update_layout(title=f'Porcentaje de Hacinamiento en viviendas para el aglomerado de {aglomerado}',xaxis_title='Fecha',yaxis_title='Hacinamiento en viviendas (%)', height=600)
-            fig.update_layout(hovermode="x unified")
-            fig.update_xaxes(
-            tickformat="%m-%Y", 
-            dtick="M3")
-            st.plotly_chart(fig, use_container_width=True)
-            st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
+         for graph_type in graficos_seleccionados:
+            if graph_type in opciones[dataset]:
+                  if graph_type == 'Alquileres':
+                     plot_graph('Hogares inquilinos', 'porcentajes_alquileres.csv', aglomerado)
+                  elif graph_type == 'Déficit Habitacional Consolidado':
+                     plot_graph('Déficit Habitacional', 'porcentajes_totales.csv', aglomerado)
+                  elif graph_type == 'Hogares por vivienda':
+                     plot_graph('viviendas con más de un hogar', 'porcentajes_hogarxviv.csv', aglomerado)
+                  elif graph_type == 'Viviendas irrecuperables':
+                     plot_graph('Viviendas irrecuperables', 'porcentajes_viv_irre.csv', aglomerado)
+                  elif graph_type == 'Viviendas recuperables':
+                     plot_graph('Viviendas recuperables', 'porcentajes_viv_recu.csv', aglomerado)
+                  elif graph_type == 'Hacinamiento en viviendas':
+                     plot_graph('Hacinamiento en viviendas', 'porcentajes_viv_hac.csv', aglomerado)
    with tab4:
       st.subheader('Mapas')
   
