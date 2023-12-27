@@ -1,11 +1,12 @@
 #importar las librerias
 import streamlit as st
-import os
+import plotly.express as px
 import pandas as pd
+import geopandas as gpd
 import numpy as np
 import plotly.graph_objs as go
-from plotly.subplots import make_subplots
 import matplotlib.pyplot as plt
+
 #disabling the warnings
 import warnings
 warnings.filterwarnings("ignore")
@@ -161,7 +162,43 @@ def main():
             st.caption('Fuente: Elaboración propia en base a datos de la EPH (2003-2022)')
    with tab4:
       st.subheader('Mapas')
-      st.markdown('_Próximamente..._')
+  
+      # Importar Datasets
+      df = pd.read_csv('mapa_inquilinos_prov.csv',sep=',')
+      opt_censo = st.selectbox('Seleccione la __variable__ a visualizar:',('Alquileres','Otros'))
+
+      st.caption('A mayor oscuridad en la escala de rojos, mayor es el porcentaje.')
+      
+      if 'Alquileres' in opt_censo:
+         # Especifica la ruta de tu archivo CSV
+         archivo_csv = 'mapa_inquilinos_prov.csv'
+         # Lee el archivo CSV con geometría almacenada como texto (WKT o GeoJSON)
+         mapa = gpd.read_file(archivo_csv, GEOM_POSSIBLE_NAMES="geometry", KEEP_GEOM_COLUMNS="NO")
+         
+         # Crear una figura con tres subgráficos en una fila
+         fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+         # Dibujar cada mapa en un subgráfico diferente
+         mapa.plot(column='Porcentaje inquilinos 2010', cmap='Reds', legend=False, ax=axes[0])
+         mapa.plot(column='Porcentaje inquilinos 2022', cmap='Reds', legend=False, ax=axes[1])
+                
+         # Añadir títulos a cada subgráfico
+         axes[0].set_title('% inquilinos | Censo 2010')
+         axes[1].set_title('% inquilinos | Censo 2022')
+
+         # Eliminar el contorno alrededor de cada subgráfico
+         for ax in axes:
+            ax.set_frame_on(False)
+            ax.set_xticks([])
+            ax.set_yticks([])
+         
+         # Ajustar el espacio entre subgráficos
+         plt.tight_layout()
+
+         st.pyplot(fig)
+      
+      if 'Otros' in opt_censo:
+         st.write('Próximamente')
 
    with tab5:
       st.subheader('Próximas incorporaciones')
