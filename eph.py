@@ -148,7 +148,7 @@ def main():
          st.pyplot(fig)
       
       if 'Otros' in opt_censo:
-         st.write('Próximamente')
+         st.write('Proximamente...')
 
    with tab5:
       st.subheader('Próximas incorporaciones')
