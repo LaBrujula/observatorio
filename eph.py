@@ -124,15 +124,17 @@ def main():
          mapa = gpd.read_file(archivo_csv, GEOM_POSSIBLE_NAMES="geometry", KEEP_GEOM_COLUMNS="NO")
          
          # Crear una figura con tres subgráficos en una fila
-         fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+         fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
          # Dibujar cada mapa en un subgráfico diferente
          mapa.plot(column='Porcentaje inquilinos 2010', cmap='Reds', legend=False, ax=axes[0])
          mapa.plot(column='Porcentaje inquilinos 2022', cmap='Reds', legend=False, ax=axes[1])
+         mapa.plot(column='Variacion intercensal', cmap='Reds', legend=False, ax=axes[2])
                 
          # Añadir títulos a cada subgráfico
-         axes[0].set_title('% inquilinos | Censo 2010')
-         axes[1].set_title('% inquilinos | Censo 2022')
+         axes[0].set_title('% Inquilinos | Censo 2010')
+         axes[1].set_title('% Inquilinos | Censo 2022')
+         axes[2].set_title('% Variación intercensal')
 
          # Eliminar el contorno alrededor de cada subgráfico
          for ax in axes:
